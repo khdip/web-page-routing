@@ -1,0 +1,31 @@
+package main
+
+import (
+	"html/template"
+	"log"
+	"net/http"
+	"path/filepath"
+)
+
+func GetHome(w http.ResponseWriter, r *http.Request) {
+	GetTemplate(w, "home.html")
+}
+
+func GetAbout(w http.ResponseWriter, r *http.Request) {
+	GetTemplate(w, "about.html")
+}
+
+func GetTemplate(w http.ResponseWriter, htmlFile string) {
+	tmp, _ := template.ParseFiles("./templates/" + htmlFile)
+	err := tmp.Execute(w, nil)
+	if err != nil {
+		log.Println("Couldn't parse html", err)
+		return
+	}
+}
+
+func main() {
+	http.HandleFunc("/", GetHome)
+	http.HandleFunc("/about", GetAbout)
+	log.Fatal(http.ListenAndServe(":8080", nil))
+}

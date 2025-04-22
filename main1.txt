@@ -1,0 +1,21 @@
+package main
+
+import (
+	"fmt"
+	"log"
+	"net/http"
+)
+
+func GetHome(w http.ResponseWriter, r *http.Request) {
+	fmt.Fprintf(w, "This is the Home Page")
+}
+
+func GetAbout(w http.ResponseWriter, r *http.Request) {
+	fmt.Fprintf(w, "This is the About Page")
+}
+
+func main() {
+	http.HandleFunc("/", GetHome)
+	http.HandleFunc("/about", GetAbout)
+	log.Fatal(http.ListenAndServe(":8080", nil))
+}
